@@ -29,7 +29,7 @@ INIT_GEOMETRY
 load('mesh_example');
 ADD_DOMAIN(node,edge,element);
 
-% Construct the list of elements and 
+% Construct the list of elements and nodes
 BUILD_MODEL
 
 % Create a table of degrees of freedom

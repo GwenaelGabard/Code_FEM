@@ -44,7 +44,17 @@ for k=1:N_DOMAIN
     % Store the method to be used for this domain
     DOMAIN_METHOD{k,k} = temp{1}{2};
     % Store the directory containing the element functions
-    DOMAIN_PATH{k} = [LIBRARY_PATH filesep PROBLEM filesep temp{1}{3} filesep];
+    % look first in the public repo
+    public = [LIBRARY_PATH{1} filesep PROBLEM filesep temp{1}{3} filesep];
+    private = [LIBRARY_PATH{2} filesep PROBLEM filesep temp{1}{3} filesep];
+    if (exist(public,'dir')) 
+       DOMAIN_PATH{k} = public;
+    elseif (exist(private,'dir')) 
+       DOMAIN_PATH{k} = private; 
+    else
+       error('The elementary routine folder could not be accessed!')
+    end
+    
     % Loop over the elements of the domain
     for j=1:length(list)
         % If it is a domain element
@@ -97,3 +107,4 @@ fprintf('%i domains, %i nodes, %i elements\n',N_DOMAIN,N_NODE,N_ELEMENT);
 % Remove temporary variables
 clear k j n temp list number name ii jj ss
 clear max_node max_elem
+clear public private
