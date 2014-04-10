@@ -27,7 +27,7 @@ ELEMENT_DATA = [];
 ELEMENT_LIST = zeros(1,N_ELEMENT);
 NODE_DATA = sparse(1000,N_NODE);
 BOUNDARY_DATA = sparse(1000,N_ELEMENT);
-DOMAIN_PATH = cell(1,N_DOMAIN);
+DOMAIN_PATH = cell(2,N_DOMAIN);
 INTERFACE = cell(N_DOMAIN,N_DOMAIN);
 INTERFACE_NAME = cell(N_DOMAIN,N_DOMAIN);
 DOMAIN_METHOD = cell(N_DOMAIN,N_DOMAIN);
@@ -44,17 +44,14 @@ for k=1:N_DOMAIN
     % Store the method to be used for this domain
     DOMAIN_METHOD{k,k} = temp{1}{2};
     % Store the directory containing the element functions
-    % look first in the public repo
+    % Put the public and private repo's
     public = [LIBRARY_PATH{1} filesep PROBLEM filesep temp{1}{3} filesep];
     private = [LIBRARY_PATH{2} filesep PROBLEM filesep temp{1}{3} filesep];
-    if (exist(public,'dir')) 
-       DOMAIN_PATH{k} = public;
-    elseif (exist(private,'dir')) 
-       DOMAIN_PATH{k} = private; 
-    else
-       error('The elementary routine folder could not be accessed!')
+    DOMAIN_PATH{1,k} = public;
+    DOMAIN_PATH{2,k} = private; 
+    if ((~exist(public,'dir'))&&(~exist(private,'dir')))
+        error('The elementary routine folder could not be accessed!')
     end
-    
     % Loop over the elements of the domain
     for j=1:length(list)
         % If it is a domain element

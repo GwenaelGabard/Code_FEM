@@ -31,14 +31,19 @@ for k=1:N_DOMAIN
     % Create a list of elements for this domain
     list = find(ELEMENT_DOMAIN(1,:)==k);
     % Get access to the element functions for this domain
-    addpath(DOMAIN_PATH{k});
+    if (exist(DOMAIN_PATH{1,k},'dir'))
+       addpath(DOMAIN_PATH{1,k});
+    end
+    if (exist(DOMAIN_PATH{2,k},'dir'))
+       addpath(DOMAIN_PATH{2,k});
+    end
     for j=1:length(list)
         % Call the element function
         temp = feval(char(ELEMENT_NAME(ELEMENT_LIST(list(j)))));
         % Check that the number of nodes given by the element function is
         % consistent with what is given in the geometry
         if N_NODE_ELEMENT(list(j))~=temp(2)
-            error('Incompatibilit� entre la description g�om�trique de l''�l�ment et la fonction �l�mentaire.');
+            error('Incompatibility between the element geometrical description and the element assembly function.');
         end
         % Number of internal degrees of freedom
         N_IDOF_ELEMENT(list(j)) = temp(end);
@@ -47,7 +52,12 @@ for k=1:N_DOMAIN
         % The level of priority of this element compared to the others
         priority(list(j)) = temp(1);
     end
-    rmpath(DOMAIN_PATH{k});
+    if (exist(DOMAIN_PATH{1,k},'dir'))
+       rmpath(DOMAIN_PATH{1,k});
+    end
+    if (exist(DOMAIN_PATH{2,k},'dir'))
+       rmpath(DOMAIN_PATH{2,k});
+    end
 end
 
 % Associate degrees of freedom to nodes and elements
@@ -67,7 +77,12 @@ for k=1:N_DOMAIN
     % Create a list of nodes for this domain
     node_list = find(NODE_DOMAIN==k);
     % Get access to the element functions for this domain
-    addpath(DOMAIN_PATH{k});
+    if (exist(DOMAIN_PATH{1,k},'dir'))
+       addpath(DOMAIN_PATH{1,k});
+    end
+    if (exist(DOMAIN_PATH{2,k},'dir'))
+       addpath(DOMAIN_PATH{2,k});
+    end
     % Loop over all the elements of this domain
     for j=1:length(list)
         % Call element function to know the number of degrees of freedom
@@ -90,7 +105,12 @@ for k=1:N_DOMAIN
         DOF_ELEMENT(N_DOF_ELEMENT(list(j))-N_IDOF_ELEMENT(list(j))+1:N_DOF_ELEMENT(list(j)),list(j)) = ( (N_DOF+1):(N_DOF+N_IDOF_ELEMENT(list(j))) )';
         N_DOF = N_DOF + N_IDOF_ELEMENT(list(j));
     end
-    rmpath(DOMAIN_PATH{k});
+    if (exist(DOMAIN_PATH{1,k},'dir'))
+       rmpath(DOMAIN_PATH{1,k});
+    end
+    if (exist(DOMAIN_PATH{2,k},'dir'))
+       rmpath(DOMAIN_PATH{2,k});
+    end
 end
 fprintf('%i DOFs\n',N_DOF);
 

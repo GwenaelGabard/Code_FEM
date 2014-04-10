@@ -29,7 +29,12 @@ for k=1:N_DOMAIN
     % Create a list of the elements in the current domain
     list = find(ELEMENT_DOMAIN(1,:)==k); %#ok<NASGU>
     % Add the path to the element functions for this domain
-    addpath(char(DOMAIN_PATH{k}));
+    if (exist(DOMAIN_PATH{1,k},'dir'))
+       addpath(DOMAIN_PATH{1,k});
+    end
+    if (exist(DOMAIN_PATH{2,k},'dir'))
+       addpath(DOMAIN_PATH{2,k});
+    end
     % Launch the assembly script for this domain
     eval(char(DOMAIN_METHOD{k,k}));
     % Go through possible couplings with other domains
@@ -44,7 +49,12 @@ for k=1:N_DOMAIN
         end
     end
     % Remove the path to the element functions for this domain
-    rmpath(char(DOMAIN_PATH{k}));
+    if (exist(DOMAIN_PATH{1,k},'dir'))
+       rmpath(DOMAIN_PATH{1,k});
+    end
+    if (exist(DOMAIN_PATH{2,k},'dir'))
+       rmpath(DOMAIN_PATH{2,k});
+    end
 end
 
 % Remove temporary variables
