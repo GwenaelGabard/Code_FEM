@@ -42,7 +42,12 @@ for nv=0:N
     end
 end
 
+
 % Create the elements
+if N==1
+    c = [1 2 3];
+    return
+end
 c = zeros(sum(2*(N:-1:1)-1),3);
 k = 1;
 for nv=1:N
