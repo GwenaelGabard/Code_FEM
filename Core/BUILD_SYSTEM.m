@@ -35,6 +35,9 @@ for k=1:N_DOMAIN
     if (exist(DOMAIN_PATH{2,k},'dir'))
        addpath(DOMAIN_PATH{2,k});
     end
+    if (exist(DOMAIN_PATH{3,k},'dir'))
+       addpath(DOMAIN_PATH{3,k});
+    end
     % Launch the assembly script for this domain
     eval(char(DOMAIN_METHOD{k,k}));
     % Go through possible couplings with other domains
@@ -55,6 +58,9 @@ for k=1:N_DOMAIN
     if (exist(DOMAIN_PATH{2,k},'dir'))
        rmpath(DOMAIN_PATH{2,k});
     end
+    if (exist(DOMAIN_PATH{3,k},'dir'))
+       rmpath(DOMAIN_PATH{3,k});
+    end    
 end
 
 % Remove temporary variables
