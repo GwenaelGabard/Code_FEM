@@ -47,11 +47,9 @@ for k=1:N_DOMAIN
     % Put the public and private repo's
     public = [LIBRARY_PATH{1} filesep PROBLEM filesep temp{1}{3} filesep];
     private = [LIBRARY_PATH{2} filesep PROBLEM filesep temp{1}{3} filesep];
-    lms_private = [LIBRARY_PATH{3} filesep PROBLEM filesep temp{1}{3} filesep];
     DOMAIN_PATH{1,k} = public;
     DOMAIN_PATH{2,k} = private; 
-    DOMAIN_PATH{3,k} = lms_private;
-    if ((~exist(public,'dir'))&&(~exist(private,'dir'))&&(~exist(lms_private,'dir')))
+    if ((~exist(public,'dir'))&&(~exist(private,'dir')))
         error('The elementary routine folder could not be accessed!')
     end
     % Loop over the elements of the domain
