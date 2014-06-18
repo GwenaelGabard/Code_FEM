@@ -43,16 +43,17 @@ for k=1:N_DOMAIN
     PROBLEM = temp{1}{1};
     % Store the method to be used for this domain
     DOMAIN_METHOD{k,k} = temp{1}{2};
-    % Store the directory containing the element functions
-    % Put the public and private repo's
-    public = [LIBRARY_PATH{1} filesep PROBLEM filesep temp{1}{3} filesep];
-    private = [LIBRARY_PATH{2} filesep PROBLEM filesep temp{1}{3} filesep];
-    lms_private = [LIBRARY_PATH{3} filesep PROBLEM filesep temp{1}{3} filesep];
-    DOMAIN_PATH{1,k} = public;
-    DOMAIN_PATH{2,k} = private; 
-    DOMAIN_PATH{3,k} = lms_private;
-    if ((~exist(public,'dir'))&&(~exist(private,'dir'))&&(~exist(lms_private,'dir')))
-        error('The elementary routine folder could not be accessed!')
+    % Store the directories containing the element functions
+    ZExist=0;
+    for iPath = 1:length(LIBRARY_PATH)
+        LocalPath = [LIBRARY_PATH{iPath} filesep PROBLEM filesep temp{1}{3} filesep];
+        DOMAIN_PATH{iPath,k} = LocalPath;
+        if (exist(LocalPath,'dir'))
+           ZExist=1;
+        end
+    end
+    if (ZExist == 0)
+       error('Elementary folder routine could not be accessed!') 
     end
     % Loop over the elements of the domain
     for j=1:length(list)

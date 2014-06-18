@@ -29,14 +29,10 @@ for k=1:N_DOMAIN
     % Create a list of the elements in the current domain
     list = find(ELEMENT_DOMAIN(1,:)==k); %#ok<NASGU>
     % Add the path to the element functions for this domain
-    if (exist(DOMAIN_PATH{1,k},'dir'))
-       addpath(DOMAIN_PATH{1,k});
-    end
-    if (exist(DOMAIN_PATH{2,k},'dir'))
-       addpath(DOMAIN_PATH{2,k});
-    end
-    if (exist(DOMAIN_PATH{3,k},'dir'))
-       addpath(DOMAIN_PATH{3,k});
+    for iPath = 1:length(LIBRARY_PATH)
+       if (exist(DOMAIN_PATH{iPath,k},'dir'))
+          addpath(DOMAIN_PATH{iPath,k});
+       end
     end
     % Launch the assembly script for this domain
     eval(char(DOMAIN_METHOD{k,k}));
@@ -52,15 +48,11 @@ for k=1:N_DOMAIN
         end
     end
     % Remove the path to the element functions for this domain
-    if (exist(DOMAIN_PATH{1,k},'dir'))
-       rmpath(DOMAIN_PATH{1,k});
+    for iPath = 1:length(LIBRARY_PATH)
+       if (exist(DOMAIN_PATH{iPath,k},'dir'))
+          rmpath(DOMAIN_PATH{iPath,k});
+       end
     end
-    if (exist(DOMAIN_PATH{2,k},'dir'))
-       rmpath(DOMAIN_PATH{2,k});
-    end
-    if (exist(DOMAIN_PATH{3,k},'dir'))
-       rmpath(DOMAIN_PATH{3,k});
-    end    
 end
 
 % Remove temporary variables
