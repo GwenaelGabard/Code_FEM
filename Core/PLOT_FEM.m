@@ -37,7 +37,7 @@ X = node(1,:);
 Y = node(2,:);
 
 if nargin == 2
-    hp = plot(X(element), Y(element), 'b-');
+    hp = patch(X(element), Y(element), X(element)*0,'FaceColor','none');
 elseif length(A) == size(node,2)
     hp = patch(X(element), Y(element), A(element), 'EdgeColor', 'none');
 elseif length(A) == size(element,2)
