@@ -22,7 +22,8 @@ if nargin == 0
 end
 
 if nargin == 1
-    out = {{'Library/Helmholtz_2D_BEM' 'METHOD_BEM' 'L2' 'DBEM_Wall_Wall'}};
+    %out = {{'Library/Helmholtz_2D_BEM' 'METHOD_BEM' 'L2' 'DBEM_Wall_Wall'}};
+    out = {{'Library/Helmholtz_2D_BEM' 'METHOD_BEM' 'L2' 'DBEM_Wall_Wall_BurtonMiller'}};
     return
 end
 
@@ -32,6 +33,5 @@ C0 = 340;
 if nargin == 2
     out = RHO0*ones(1,size(x,2));
     out = [out ; C0*ones(1,size(x,2))];
-    
     return
 end

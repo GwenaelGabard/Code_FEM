@@ -17,10 +17,10 @@
 addpath('../../../../Code_FEM/Core');
 MANAGE_PATH
 
-global omega typegeo type Order facteurdensite
-global alpha beta
-global LENGTH_ELEMENT NGPWL
-global N_GAUSS_POINT GAUSS_POINT GAUSS_WEIGHT SHAPEFUNC DSHAPEFUNC
+global omega typegeo type Order 
+global alpha beta % Burton Miller formulation
+global N_GAUSS_POINT GAUSS_POINT GAUSS_WEIGHT 
+global SHAPEFUNC DSHAPEFUNC
 
 % Diffraction of a circle by an incident Plane Wave
 
@@ -32,18 +32,17 @@ Perimeter = 2*pi;
 % Plane wave amplitude
 Ainc = 1;
 % Frequency
-ka = 6;
+ka = 3.2;
 omega = ka*340;
-% Dof density
-ndof = 30;
 % Interpolation order
-Order = 2;
-% Number of BEM elements
-Nelement = round(ndof*Perimeter*(ka/(2*pi))/Order);
+Order = 3;
+% Fixed Number of BEM elements
+Nelement = 10;
+% Or based on a dof density
+% ndof = 400;
+% Nelement = round(ndof*Perimeter*(ka/(2*pi))/Order);
 % Number of Gauss Points per wavelength
 NGPWL = 10;
-% Density factor (For the auto-influence computation)
-facteurdensite = 1;
 % Burton and Miller
 if strcmp(type,'open')
     alpha = 1; beta = 0;
