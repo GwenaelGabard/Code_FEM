@@ -16,12 +16,16 @@
 
 % Construct the data describing the physics of the problem
 
-global ELEMENT_NAME ELEMENT_LIST
+global N_RHS
+global ELEMENT_NAME ELEMENT_LIST 
 global ELEMENT_DATA NODE_DATA BOUNDARY_DATA
 global INTERFACE INTERFACE_NAME
 global DOMAIN_METHOD DOMAIN_PATH
 fprintf('BUILD_MODEL: ');
 
+if isempty(N_RHS)
+    N_RHS = 1;
+end
 ELEMENT_NAME = [];
 ELEMENT_DATA = [];
 ELEMENT_LIST = zeros(1,N_ELEMENT);

@@ -19,7 +19,7 @@
 % Initialise an empty sparse matrix for the global matrix
 K = sparse(N_DOF,N_DOF);
 % Initialise an empty sparse vector for the right-hand side
-F = sparse(N_DOF,1);
+F = sparse(N_DOF,N_RHS);
 % Initialise an empty sparse matrix for the linear constraints
 R = sparse(N_DOF,N_DOF);
 % Initialise an empty sparse vector for the linear constraints

@@ -40,8 +40,8 @@ for j=1:length(list)
         jj(aa) = dof_list(jje);
         ss(aa) = sse;
     end
-    % Store the contributions to the RHS
-    F(dof_list) = F(dof_list) + Fe;
+    % Store the contributions to the RHS (multi-rhs possible)
+    F(dof_list,:) = F(dof_list,:) + Fe; 
     % Store the linear constraints
     Le = find(max(abs(Re),[],2));
     % Clean up any previous linear constraints
