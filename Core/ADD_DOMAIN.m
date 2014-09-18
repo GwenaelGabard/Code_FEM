@@ -39,14 +39,14 @@ if N_DOMAIN == 0
     % Define the list of nodes for each element
     ELEMENT = element(1:end-1,:);
     % Define the description of each element
-    ELEMENT_DOMAIN = [N_DOMAIN*ones(1,size(element,2));zeros(1,size(element,2));element(end,:)];
+    ELEMENT_DOMAIN = [N_DOMAIN*ones(1,size(element,2));zeros(1,size(element,2));element(end,:);2*ones(1,size(element,2))];
     % For the boundary elements
     % Add the number of nodes per element.
     N_NODE_ELEMENT = [N_NODE_ELEMENT ones(1,n_edge)*(size(edge,1)-5)];
     % Add the list of nodes for each element
     ELEMENT = [ELEMENT [edge(1:end-5,:)+N_NODE;zeros(size(ELEMENT,1)-size(edge,1)+5,size(edge,2))]];
     % Add the description of each element
-    ELEMENT_DOMAIN = [ELEMENT_DOMAIN [N_DOMAIN*ones(1,size(edge,2));ones(1,size(edge,2));edge(end-2,:)]];
+    ELEMENT_DOMAIN = [ELEMENT_DOMAIN [N_DOMAIN*ones(1,size(edge,2));ones(1,size(edge,2));edge(end-2,:);ones(1,size(edge,2))]];
     % Total number of elements
     N_ELEMENT = N_ELEMENT + n_element + n_edge;
     % Total number of nodes
