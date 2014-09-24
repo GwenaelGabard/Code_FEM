@@ -1,4 +1,4 @@
-function gmshLaunch(gmeshFile,ParameterName,ParameterValue,NrOfParameters,NrOfdimensions,outfile) 
+function GmshLaunch(gmeshFile,ParameterName,ParameterValue,NrOfParameters,NrOfdimensions,outfile) 
 % launches gmesh meshing
 % Gmesh should be recognized as an internal command -> put the executable in the System32 folder in Windows 
 % 1. Modifies the parameters in the .geo file

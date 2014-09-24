@@ -20,14 +20,22 @@ MANAGE_PATH
 
 % Define some global properties of the problem
 global omega
-omega = 10;
+omega = 20;
+
+% Mesh & domain properties (if external mesher)
+MeshLength = 0.05;
+Length = 2;
+Height = 1;
 
 % Initialise the geometry description
 INIT_GEOMETRY
 
-% Load an existing mesh and add it to the geometry
-load('mesh_example');
-ADD_DOMAIN(node,edge,element);
+% Option 1: Load an existing mesh and add it to the geometry
+% load('mesh_example');
+% ADD_DOMAIN(node,edge,element);
+% Option 2: use gmsh as an external mesher (http://geuz.org/gmsh/#Download)
+GmshLaunch('rectangle_T3',{'H' 'L' 'MeshLength'},[Height Length MeshLength],3,2,'Mesh.mat');
+load('Mesh.mat'); delete('Mesh.mat');
 
 % Construct the list of elements and nodes
 BUILD_MODEL
