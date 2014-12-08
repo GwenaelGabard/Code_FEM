@@ -24,7 +24,7 @@ load mesh_example
 
 % Plot the mesh
 figure;
-meshplot(node(1:2, :), [], element(1:6, :));
+PLOT_FEM(node(1:2, :), element(1:6, :));
 axis equal; axis tight; box on;
 
 INIT_GEOMETRY
@@ -90,7 +90,7 @@ end
 
 % Plot the velocity potential
 figure
-femplot(node(1:2,:), element(1:6,:), full(U))
+PLOT_FEM(node(1:2,:), element(1:6,:), full(U))
 axis equal; axis tight; box on;
 colorbar;
 title('velocity potential');
@@ -101,31 +101,31 @@ get_flow;
 
 % Plot the properties of the flow
 figure
-femplot(node(1:2,:), element(1:6,:), Vx)
+PLOT_FEM(node(1:2,:), element(1:6,:), Vx)
 axis equal; axis tight; box on;
 colorbar;
 title('vx');
 
 figure
-femplot(node(1:2,:), element(1:6,:), Vy)
+PLOT_FEM(node(1:2,:), element(1:6,:), Vy)
 axis equal; axis tight; box on;
 colorbar;
 title('vy');
 
 figure
-femplot(node(1:2,:), element(1:6,:), V./c)
+PLOT_FEM(node(1:2,:), element(1:6,:), V./c)
 axis equal; axis tight; box on;
 colorbar;
 title('Mach number');
 
 figure
-femplot(node(1:2,:), element(1:6,:), rho)
+PLOT_FEM(node(1:2,:), element(1:6,:), rho)
 axis equal; axis tight; box on;
 colorbar;
 title('density');
 
 figure
-femplot(node(1:2,:), element(1:6,:), c)
+PLOT_FEM(node(1:2,:), element(1:6,:), c)
 axis equal; axis tight; box on;
 colorbar;
 title('sound speed');
