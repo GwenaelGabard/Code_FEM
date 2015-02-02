@@ -17,7 +17,7 @@
 function [Ke,Fe,Re,Ve] = velocity(k)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 2D Convected Helmholtz Equation
-% Notation: exp(-i \omega t)
+% Notation: exp(+i \omega t)
 % Boundary condition: velocity
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Linear boundary element associated to the T3 element
@@ -96,3 +96,4 @@ for n=1:N_GAUSS_POINT
     % Add contribution to the element rhs
     Fe = Fe + GAUSS_WEIGHT(n)*( L.'*dPdn )*Js;
 end
+

@@ -45,9 +45,9 @@ global ELEMENT NODE NODE_DATA
 % Sound speed at the nodes
 C0 = NODE_DATA(2,ELEMENT(1,k));
 % Mean flow velocity at the nodes
-U0 = NODE_DATA(3:4,ELEMENT(1:3,k));
+U0 = NODE_DATA(3:4,ELEMENT(1:4,k));
 % Source term at the nodes
-S = NODE_DATA(5,ELEMENT(1:3,k));
+S = NODE_DATA(5,ELEMENT(1:4,k));
 
 % Gauss points on the reference element
 N_GAUSS_POINT = 4;

@@ -74,6 +74,12 @@ for n=1:N_GAUSS_POINT
     J = [-1 1 0;-1 0 1]*[x_node y_node];
     detJ = det(J);
     
+    %%%%%%%%%%%%%%%%
+    if detJ <= 0
+       error('Error in element.m: non-positive Jacobian'); 
+    end
+    %%%%%%%%%%%%%%%%%
+        
     % Shape functions for the solution
     N = [1-u-v u v];
     % Shape functions for the gradient of the solution
