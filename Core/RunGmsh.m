@@ -24,7 +24,7 @@ fclose(infile);
 fclose(outfile);
 
 % Run gmsh to produce the .msh file
-system(['/Applications/Gmsh.app/Contents/MacOS/gmsh ' Output ['.geo -' num2str(NrOfdimensions) ' -v 0']]);
+system(['gmsh ' Output ['.geo -' num2str(NrOfdimensions) ' -v 0']]);
 
 % Parse the .msh file to create the elements
 Gmsh2CodeFem([Output '.msh'], Output);
