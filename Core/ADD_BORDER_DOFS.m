@@ -24,45 +24,39 @@ function ADD_BORDER_DOFS(nd, border_list, group_list)
 global ELEMENT N_NODE_ELEMENT
 global N_DOF_ELEMENT DOF_ELEMENT
 
-% Passage en codage sparse pour ?viter des probl?mes
 DOF_ELEMENT = sparse(DOF_ELEMENT);
 
-% Construction de la liste des ?l?ments de bord ? traiter
 elem_list = GET_ELEMENT_LIST(nd,1,border_list);
 
-% La liste des ?l?ments de domaine du domaine concern?
 if nargin==3
     dom_list = GET_ELEMENT_LIST(nd,0,group_list);
 else
     dom_list = GET_ELEMENT_LIST(nd,0);
 end
 
-% Boucle sur les ?l?ments de bord ? traiter
 for n=1:length(elem_list)
     table = zeros(1,length(dom_list));
     for m=1:N_NODE_ELEMENT(elem_list(n))
         table = table + sum(ELEMENT(:,dom_list)==ELEMENT(m,elem_list(n)),1);
     end
-    % Le num?ro de l'?l?ment de domaine adjacent
+    % Adjacent element number
     num = find(table==N_NODE_ELEMENT(elem_list(n)));
-    % D?tection des probl?mes
+    % Problem detection
     if length(num)~=1
-        error('Un ?l?ment de bord n''a pas de voisin ou en a plusieurs !');
+        error('A boundary element does not have a neighbour of has multiple ones !');
     end
-    % Boucle sur les degr?s de libert? de l'?lement de domaine adjacent
+    % Loop over the dofs of the adjacent element
     for m=1:N_DOF_ELEMENT(dom_list(num))
-        % Si le degr? de libert? appartient d?ja ? l'?l?ment de bord, on ne
-        % l'ajoute pas
+        % If the dof is already in the list, do not add it
         if ~any(DOF_ELEMENT(1:N_DOF_ELEMENT(elem_list(n)),elem_list(n))==DOF_ELEMENT(m,dom_list(num)))
             N_DOF_ELEMENT(elem_list(n)) = N_DOF_ELEMENT(elem_list(n)) + 1;
             DOF_ELEMENT(N_DOF_ELEMENT(elem_list(n)),elem_list(n)) = DOF_ELEMENT(m,dom_list(num));
         end
     end
-    % Boucle sur les noeuds de l'?lement de domaine adjacent
+    % Loop over the nodes of the neighbouring element
     k = N_NODE_ELEMENT(elem_list(n));
     for m=1:N_NODE_ELEMENT(dom_list(num))
-        % Si le noeud appartient d?ja ? l'?l?ment de bord, on ne
-        % l'ajoute pas
+        % If the node is already in the list, do not add it
         if ~any(ELEMENT(1:k,elem_list(n))==ELEMENT(m,dom_list(num)))
             k = k+1;
             ELEMENT(k,elem_list(n)) = ELEMENT(m,dom_list(num));
@@ -72,8 +66,8 @@ for n=1:length(elem_list)
     end
 end
 
-% Retour en codage standard
+% Back to standard coding
 DOF_ELEMENT = full(DOF_ELEMENT);
 
 % Commentaires
-% o cette fonction a ?t? test?e pour des ?l?ments T3 et L2
+% This function was tested for the T3, L2, L3 and T4 elements
