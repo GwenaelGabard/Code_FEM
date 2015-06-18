@@ -44,7 +44,7 @@ temp = fgetl(fid); % on lit la ligne $ELEM
 % 
 N_ELEMENT = str2double(fgetl(fid));
 ELEMENT = zeros(1,N_ELEMENT);
-ELEMENT_DOMAIN = zeros(3,N_ELEMENT);
+ELEMENT_DOMAIN = zeros(4,N_ELEMENT);
 N_NODE_ELEMENT = zeros(1,N_ELEMENT);
 NODE_DOMAIN = ones(1,N_NODE);
 N_DIM = 2;
@@ -103,7 +103,7 @@ for k=1:N_ELEMENT
         temp = out(point:end);
         ELEMENT(1:3,k) = NUMNODE(temp([1 3 2])).';
         N_NODE_ELEMENT(k) = 3;
-        ELEMENT_DOMAIN(1:3,k) = [ Q 1 out(4)-(Q*1000) ];
+        %ELEMENT_DOMAIN(1:3,k) = [ Q 1 out(4)-(Q*1000) ];
     elseif type==10
         %**************************************
         %           QUADRATIC QUADRANGLE
@@ -111,7 +111,7 @@ for k=1:N_ELEMENT
         temp = out(point:end);
         ELEMENT(1:9,k) = NUMNODE(temp([1 5 2 6 3 7 4 8 9])).';
         N_NODE_ELEMENT(k) = 9;
-        ELEMENT_DOMAIN(1:3,k) = [ Q 0 1 ];
+        %ELEMENT_DOMAIN(1:3,k) = [ Q 0 1 ];
     elseif type==9
         %**************************************
         %           QUADRATIC TRIANGLE
@@ -119,7 +119,7 @@ for k=1:N_ELEMENT
         temp = out(point:end);
         ELEMENT(1:6,k) = NUMNODE(temp([1 4 2 5 3 6])).';
         N_NODE_ELEMENT(k) = 6;
-        ELEMENT_DOMAIN(1:3,k) = [ Q 0 1 ];
+        %ELEMENT_DOMAIN(1:3,k) = [ Q 0 1 ];
     elseif type==4
         %**************************************
         %           LINEAR TETRAHEDRON
