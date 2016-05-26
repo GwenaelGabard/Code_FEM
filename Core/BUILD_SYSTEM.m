@@ -43,6 +43,9 @@ for k=1:N_DOMAIN
             % Create the list of interactions between elements of the two
             % domains
             list = INTERFACE{k,j}; %#ok<NASGU>
+            if size(list,1)==1;
+                list = list.';
+            end
             % Launch the script to calculate the interaction
             eval(char(DOMAIN_METHOD{k,j}));
         end
