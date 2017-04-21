@@ -45,6 +45,7 @@ elseif length(A) == size(element,2)
 else
     error('Invalid input.');
 end
+colormap('jet')
 
 if nargout == 1
     h = hp;

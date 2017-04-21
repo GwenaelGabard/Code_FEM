@@ -63,7 +63,7 @@ for k=1:N_DOMAIN
     for j=1:length(list)
         % If it is a domain element
         if ELEMENT_DOMAIN(2,list(j))==0
-            if size(temp{1})==4
+            if size(temp{1},2)==4
                 % Store the name of the element function
                 [number,ELEMENT_NAME] = ADD_TO_LIST(ELEMENT_NAME,temp{1}{4});
                 ELEMENT_LIST(list(j)) = number;
