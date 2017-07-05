@@ -29,9 +29,10 @@ R = inv(R);
 K = R.'*K*R;
 F = R.'*F;
 
-% Modify the linear system
-K(L,:) = 0;
-K((L-1)*N_DOF+L) = 1;
+% Modify the linear system 
+% K(L,:) = 0;% K((L-1)*N_DOF+L) = 1;% F(L) = V(L); (original method - unsymmetric + slow)
+F = F-(K(:,L)*V(L)); K(L,:) = 0; K(:,L) = 0; 
+diagK = diag(K); diagK(L)=1; K = spdiags(diagK,0,K); 
 F(L) = V(L);
 
 % Direct resolution of the linear system
