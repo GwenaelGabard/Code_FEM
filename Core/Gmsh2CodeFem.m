@@ -10,8 +10,8 @@ function Gmsh2CodeFem(infile,outfile)
 %
 % Elements supported:
 % 1D: L2,T3
-% 2D: Q4,T3,Q8,T6, T10, T15
-% 3D: H8,T4,T10
+% 2D: Q4,T3,Q8,Q9,T6,T10,T15
+% 3D: H8,H20,T4,T10
 %
 % http://www.geuz.org/gmsh/doc/texinfo/gmsh_10.html#SEC62
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -103,15 +103,20 @@ for k=1:N_ELEMENT
         temp = out(point:end);
         ELEMENT(1:3,k) = NUMNODE(temp([1 3 2])).';
         N_NODE_ELEMENT(k) = 3;
-        %ELEMENT_DOMAIN(1:3,k) = [ Q 1 out(4)-(Q*1000) ];
     elseif type==10
         %**************************************
-        %           QUADRATIC QUADRANGLE
+        %   QUADRATIC QUADRANGLE (9 nodes)
         %**************************************
         temp = out(point:end);
         ELEMENT(1:9,k) = NUMNODE(temp([1 5 2 6 3 7 4 8 9])).';
         N_NODE_ELEMENT(k) = 9;
-        %ELEMENT_DOMAIN(1:3,k) = [ Q 0 1 ];
+    elseif type==16
+        %**************************************
+        %   QUADRATIC QUADRANGLE (8 nodes)
+        %**************************************
+        temp = out(point:end);
+        ELEMENT(1:8,k) = NUMNODE(temp([1 5 2 6 3 7 4 8])).';
+        N_NODE_ELEMENT(k) = 8;
     elseif type==9
         %**************************************
         %           QUADRATIC TRIANGLE
@@ -119,7 +124,6 @@ for k=1:N_ELEMENT
         temp = out(point:end);
         ELEMENT(1:6,k) = NUMNODE(temp([1 4 2 5 3 6])).';
         N_NODE_ELEMENT(k) = 6;
-        %ELEMENT_DOMAIN(1:3,k) = [ Q 0 1 ];
     elseif type==4
         %**************************************
         %           LINEAR TETRAHEDRON
@@ -133,6 +137,14 @@ for k=1:N_ELEMENT
         %**************************************
         ELEMENT(1:8,k) = NUMNODE(out(point:end)).';
         N_NODE_ELEMENT(k) = 8;
+        N_DIM = 3;
+    elseif type==17
+        %**************************************
+        %  Quadratic HEXAHEDRON (20 nodes)
+        %**************************************
+        temp = out(point:end);
+        ELEMENT(1:20,k) = NUMNODE(temp([1 9 2 12 3 14 4 10 11 13 15 16 5 17 6 19 7 20 8 18])).';
+        N_NODE_ELEMENT(k) = 20;
         N_DIM = 3;
     elseif type==11
         %**************************************
@@ -149,7 +161,6 @@ for k=1:N_ELEMENT
         temp = out(point:end);
         ELEMENT(1:4,k) = NUMNODE(temp([1 3 4 2])).';
         N_NODE_ELEMENT(k) = 4;
-        %ELEMENT_DOMAIN(1:3,k) = [ Q 1 out(4)-(Q*1000) ]; ?????
     elseif type==21
         %**************************************
         %           CUBIC TRIANGLE
@@ -157,16 +168,13 @@ for k=1:N_ELEMENT
         temp = out(point:end);
         ELEMENT(1:10,k) = NUMNODE(temp([1 4 5 2 6 7 3 8 9 10])).';
         N_NODE_ELEMENT(k) = 10;
-        %ELEMENT_DOMAIN(1:3,k) = [ Q 0 1 ];????
    elseif type==36
         %**************************************
         %           CUBIC QUADRANGLE
         %**************************************
         temp = out(point:end);
-%         ELEMENT(1:16,k) = NUMNODE(temp([1 5 6 2 7 8 3 9 10 4 11 12 14 15 16 13])).';
         ELEMENT(1:16,k) = NUMNODE(temp([1 5 6 2 7 8 3 9 10 4 11 12 13 14 15 16])).';
         N_NODE_ELEMENT(k) = 16;
-        %ELEMENT_DOMAIN(1:3,k) = [ Q 0 1 ];????
      elseif type==27
         %**************************************
         %           QUARTIC LINE
@@ -174,7 +182,6 @@ for k=1:N_ELEMENT
         temp = out(point:end);
         ELEMENT(1:5,k) = NUMNODE(temp([1 3 4 5 2])).';
         N_NODE_ELEMENT(k) = 5;
-        %ELEMENT_DOMAIN(1:3,k) = [ Q 1 out(4)-(Q*1000) ]; ?????
     elseif type==23
         %**************************************
         %           QUARTIC TRIANGLE
@@ -182,16 +189,13 @@ for k=1:N_ELEMENT
         temp = out(point:end);
         ELEMENT(1:15,k) = NUMNODE(temp([1 4 5 6 2 7 8 9 3 10 11 12 13 14 15])).';
         N_NODE_ELEMENT(k) = 15;
-        %ELEMENT_DOMAIN(1:3,k) = [ Q 0 1 ];????
     elseif type==37
         %**************************************
         %           QUARTIC QUADRANGLE
         %**************************************
         temp = out(point:end);
-%         ELEMENT(1:25,k) = NUMNODE(temp([1 5 6 7 2 8 9 10 3 11 12 13 4 14 15 16 18 22 19 23 20 24 17 21 25])).';
         ELEMENT(1:25,k) = NUMNODE(temp([1 5 6 7 2 8 9 10 3 11 12 13 4 14 15 16 17 21 18 22 19 23 20 24 25])).';
         N_NODE_ELEMENT(k) = 25;
-        %ELEMENT_DOMAIN(1:3,k) = [ Q 0 1 ];????
     end
 end
 
@@ -205,8 +209,8 @@ NODE_ID = 1:N_NODE;
 N_DOMAIN = max(ELEMENT_DOMAIN(1,:));
 
 for k = N_DOMAIN:-1:1
-    Elt_list = find(ELEMENT_DOMAIN(1,:) == k);
-    Node_list = ELEMENT(:,Elt_list);
+    ElemList = find(ELEMENT_DOMAIN(1,:) == k);
+    Node_list = ELEMENT(:,ElemList);
     Node_list = Node_list(:);
     Node_list = Node_list(find(Node_list ~= 0));
     NODE_DOMAIN(1,Node_list') = k*ones(size(Node_list'));
@@ -216,6 +220,5 @@ end
 %    NODE = NODE(1:2,:);
 %end
 
-
-% Sauvegarde du maillage dans un fichier Code FEM
+% Copy the mesh information in a mat file
 save(outfile,'N_DIM','N_NODE','NODE','N_ELEMENT','N_NODE_ELEMENT','ELEMENT','N_DOMAIN','ELEMENT_DOMAIN','NODE_DOMAIN','ELEMENT_ID','NODE_ID');
