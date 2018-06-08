@@ -66,28 +66,13 @@ if strcmpi(token(end-length(DIRECTORY_PRIVATE)+1:end),DIRECTORY_PRIVATE)
     LIBRARY_PATH{2} = token(1:end-5);
 end
 
-DIRECTORY_LMS_Private = fullfile('Code_FEM_LMS_Private','Core');
-% Get the directories in the path
-P = path;
-numbers = find(P==pathsep);
-for k=0:length(numbers)
-    if k==0
-        token = P(1:(numbers(1)-1));
-    end
-    if k==length(numbers)
-        token = P((numbers(k)+1):end);
-    end
-    if (k>0)&&(k<length(numbers))
-        token = P((numbers(k)+1):(numbers(k+1)-1));
-    end
-    if strcmpi(token(end-length(DIRECTORY_LMS_Private)+1:end),DIRECTORY_LMS_Private)
-        break
-    end
-end
-
-if strcmpi(token(end-length(DIRECTORY_LMS_Private)+1:end),DIRECTORY_LMS_Private)
-    LIBRARY_PATH{3} = token(1:end-5);
+name = getenv('computername');
+switch name
+    case {'BELEUHBERIOT01'}
+        SYSNOISE_PATH = 'C:\DATA\ProgramFiles\SysnoiseVL13.6\5.6\bin';
+%    case 
+%        SYSNOISE_PATH = 'C:\Sysnoise\5.6\bin';
 end
 
 % Remove temporary variables
-clear P k numbers token
+clear P k numbers token name
