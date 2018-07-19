@@ -68,8 +68,8 @@ end
 
 name = getenv('computername');
 switch name
-    case {'BELEUHBERIOT01'} % Hadrien's laptop
-        SYSNOISE_PATH = 'C:\DATA\ProgramFiles\SysnoiseVL13.6\5.6\bin';
+    case {'BELEUBH01'} % Hadrien's laptop
+        SYSNOISE_PATH = 'D:\ProgramFiles\SysnoiseVL13.6\5.6\bin';
     case {'LEU-W13-005'} % largest node dev.
         SYSNOISE_PATH = 'C:\Data\hberiot\Sysnoise_VL13.6\5.6\bin';
 end
