@@ -1,5 +1,6 @@
 function Gmsh2CodeFem(infile,outfile)
 
+% Msh file version 3.0 -> use gmsh version 3.0.6
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Reads gmsh output file .msh and converts it to the CodeFEM format
 % NODE ELEMENT ELEMENT_DOMAIN N_NODE N_ELEMENT...  
