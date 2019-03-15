@@ -70,8 +70,10 @@ name = getenv('computername');
 switch name
     case {'BELEUBH01'} % Hadrien's laptop
         SYSNOISE_PATH = 'D:\ProgramFiles\SysnoiseVL13.6\5.6\bin';
+        SCRATCH_PATH = pwd;
     case {'LNI6W005'} % largest node dev.
         SYSNOISE_PATH = 'C:\Users\ms7go3\Documents\sysnoise\bin';
+        SCRATCH_PATH = 'E:\scratch\';
 end
 
 % Remove temporary variables
