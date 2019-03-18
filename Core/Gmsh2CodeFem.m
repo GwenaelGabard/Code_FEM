@@ -3,8 +3,8 @@ function Gmsh2CodeFem(infile,outfile)
 % Msh file version 3.0 -> use gmsh version 3.0.6
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Reads gmsh output file .msh and converts it to the CodeFEM format
-% NODE ELEMENT ELEMENT_DOMAIN N_NODE N_ELEMENT...  
-% Note: 
+% NODE ELEMENT ELEMENT_DOMAIN N_NODE N_ELEMENT...
+% Note:
 % Each domain is defined as multiples of 1000
 % and each boundary by 1000*domain_i + boundary_i
 % such that 4003 is the third boundary of domain number 4
@@ -42,7 +42,7 @@ temp = fgetl(fid); %
 temp = fgetl(fid); % on lit la ligne $ENDNOD
 temp = fgetl(fid); % on lit la ligne $ELEM
 
-% 
+%
 N_ELEMENT = str2double(fgetl(fid));
 ELEMENT = zeros(1,N_ELEMENT);
 ELEMENT_DOMAIN = zeros(4,N_ELEMENT);
@@ -80,133 +80,139 @@ for k=1:N_ELEMENT
     %-------------------
     %
     switch ElementType
+        case 15
+            %**************************************
+            %            SINGLE POINT
+            %**************************************
+            ELEMENT(1,k) = NUMNODE(out(point:end)).';
+            N_NODE_ELEMENT(k) = 1;
         case 1
-        %**************************************
-        %           LINEAR LINE
-        %**************************************`
-        ELEMENT(1:2,k) = NUMNODE(out(point:end)).';
-        N_NODE_ELEMENT(k) = 2;
-    case 3
-        %**************************************
-        %            LINEAR QUADRANGLE
-        %**************************************`
-        ELEMENT(1:4,k) = NUMNODE(out(point:end)).';
-        N_NODE_ELEMENT(k) = 4;
-    case 2
-        %**************************************
-        %            LINEAR TRIANGLE
-        %**************************************
-        ELEMENT(1:3,k) = NUMNODE(out(point:end)).';
-        N_NODE_ELEMENT(k) = 3;
-    case 8
-        %**************************************
-        %           QUADRATIC LINE
-        %**************************************
-        temp = out(point:end);
-        ELEMENT(1:3,k) = NUMNODE(temp([1 3 2])).';
-        N_NODE_ELEMENT(k) = 3;
-    case 10
-        %**************************************
-        %   QUADRATIC QUADRANGLE (9 nodes)
-        %**************************************
-        temp = out(point:end);
-        ELEMENT(1:9,k) = NUMNODE(temp([1 5 2 6 3 7 4 8 9])).';
-        N_NODE_ELEMENT(k) = 9;
-    case 16
-        %**************************************
-        %   QUADRATIC QUADRANGLE (8 nodes)
-        %**************************************
-        temp = out(point:end);
-        ELEMENT(1:8,k) = NUMNODE(temp([1 5 2 6 3 7 4 8])).';
-        N_NODE_ELEMENT(k) = 8;
-    case 9
-        %**************************************
-        %           QUADRATIC TRIANGLE
-        %**************************************
-        temp = out(point:end);
-        ELEMENT(1:6,k) = NUMNODE(temp([1 4 2 5 3 6])).';
-        N_NODE_ELEMENT(k) = 6;
-    case 4
-        %**************************************
-        %           LINEAR TETRAHEDRON
-        %**************************************
-        ELEMENT(1:4,k) = NUMNODE(out(point:end)).';
-        N_NODE_ELEMENT(k) = 4;
-        N_DIM = 3;
-    case 5
-        %**************************************
-        %           LINEAR HEXAHEDRON
-        %**************************************
-        ELEMENT(1:8,k) = NUMNODE(out(point:end)).';
-        N_NODE_ELEMENT(k) = 8;
-        N_DIM = 3;
-    case 6
-        %**************************************
-        %           LINEAR PRISM
-        %**************************************
-        ELEMENT(1:6,k) = NUMNODE(out(point:end)).';
-        N_NODE_ELEMENT(k) = 6;
-        N_DIM = 3;        
-    case 17
-        %**************************************
-        %  Quadratic HEXAHEDRON (20 nodes)
-        %**************************************
-        temp = out(point:end);
-        ELEMENT(1:20,k) = NUMNODE(temp([1 9 2 12 3 14 4 10 11 13 15 16 5 17 6 19 7 20 8 18])).';
-        N_NODE_ELEMENT(k) = 20;
-        N_DIM = 3;
-    case 11
-        %**************************************
-        %           QUADRATIC TETRAHEDRON
-        %**************************************
-        temp = out(point:end);
-        ELEMENT(1:10,k) = NUMNODE(temp([1 5 2 6 3 7 8 10 9 4])).';
-        N_NODE_ELEMENT(k) = 10;
-        N_DIM = 3;
-    case 26
-        %**************************************
-        %           CUBIC LINE
-        %**************************************
-        temp = out(point:end);
-        ELEMENT(1:4,k) = NUMNODE(temp([1 3 4 2])).';
-        N_NODE_ELEMENT(k) = 4;
-    case 21
-        %**************************************
-        %           CUBIC TRIANGLE
-        %**************************************
-        temp = out(point:end);
-        ELEMENT(1:10,k) = NUMNODE(temp([1 4 5 2 6 7 3 8 9 10])).';
-        N_NODE_ELEMENT(k) = 10;
-   case 36
-        %**************************************
-        %           CUBIC QUADRANGLE
-        %**************************************
-        temp = out(point:end);
-        ELEMENT(1:16,k) = NUMNODE(temp([1 5 6 2 7 8 3 9 10 4 11 12 13 14 15 16])).';
-        N_NODE_ELEMENT(k) = 16;
-     case 27
-        %**************************************
-        %           QUARTIC LINE
-        %**************************************
-        temp = out(point:end);
-        ELEMENT(1:5,k) = NUMNODE(temp([1 3 4 5 2])).';
-        N_NODE_ELEMENT(k) = 5;
-    case 23
-        %**************************************
-        %           QUARTIC TRIANGLE
-        %**************************************
-        temp = out(point:end);
-        ELEMENT(1:15,k) = NUMNODE(temp([1 4 5 6 2 7 8 9 3 10 11 12 13 14 15])).';
-        N_NODE_ELEMENT(k) = 15;
-    case 37
-        %**************************************
-        %           QUARTIC QUADRANGLE
-        %**************************************
-        temp = out(point:end);
-        ELEMENT(1:25,k) = NUMNODE(temp([1 5 6 7 2 8 9 10 3 11 12 13 4 14 15 16 17 21 18 22 19 23 20 24 25])).';
-        N_NODE_ELEMENT(k) = 25;
-    otherwise 
-        error('Element not recognized!')
+            %**************************************
+            %           LINEAR LINE
+            %**************************************`
+            ELEMENT(1:2,k) = NUMNODE(out(point:end)).';
+            N_NODE_ELEMENT(k) = 2;
+        case 3
+            %**************************************
+            %            LINEAR QUADRANGLE
+            %**************************************`
+            ELEMENT(1:4,k) = NUMNODE(out(point:end)).';
+            N_NODE_ELEMENT(k) = 4;
+        case 2
+            %**************************************
+            %            LINEAR TRIANGLE
+            %**************************************
+            ELEMENT(1:3,k) = NUMNODE(out(point:end)).';
+            N_NODE_ELEMENT(k) = 3;
+        case 8
+            %**************************************
+            %           QUADRATIC LINE
+            %**************************************
+            temp = out(point:end);
+            ELEMENT(1:3,k) = NUMNODE(temp([1 3 2])).';
+            N_NODE_ELEMENT(k) = 3;
+        case 10
+            %**************************************
+            %   QUADRATIC QUADRANGLE (9 nodes)
+            %**************************************
+            temp = out(point:end);
+            ELEMENT(1:9,k) = NUMNODE(temp([1 5 2 6 3 7 4 8 9])).';
+            N_NODE_ELEMENT(k) = 9;
+        case 16
+            %**************************************
+            %   QUADRATIC QUADRANGLE (8 nodes)
+            %**************************************
+            temp = out(point:end);
+            ELEMENT(1:8,k) = NUMNODE(temp([1 5 2 6 3 7 4 8])).';
+            N_NODE_ELEMENT(k) = 8;
+        case 9
+            %**************************************
+            %           QUADRATIC TRIANGLE
+            %**************************************
+            temp = out(point:end);
+            ELEMENT(1:6,k) = NUMNODE(temp([1 4 2 5 3 6])).';
+            N_NODE_ELEMENT(k) = 6;
+        case 4
+            %**************************************
+            %           LINEAR TETRAHEDRON
+            %**************************************
+            ELEMENT(1:4,k) = NUMNODE(out(point:end)).';
+            N_NODE_ELEMENT(k) = 4;
+            N_DIM = 3;
+        case 5
+            %**************************************
+            %           LINEAR HEXAHEDRON
+            %**************************************
+            ELEMENT(1:8,k) = NUMNODE(out(point:end)).';
+            N_NODE_ELEMENT(k) = 8;
+            N_DIM = 3;
+        case 6
+            %**************************************
+            %           LINEAR PRISM
+            %**************************************
+            ELEMENT(1:6,k) = NUMNODE(out(point:end)).';
+            N_NODE_ELEMENT(k) = 6;
+            N_DIM = 3;
+        case 17
+            %**************************************
+            %  Quadratic HEXAHEDRON (20 nodes)
+            %**************************************
+            temp = out(point:end);
+            ELEMENT(1:20,k) = NUMNODE(temp([1 9 2 12 3 14 4 10 11 13 15 16 5 17 6 19 7 20 8 18])).';
+            N_NODE_ELEMENT(k) = 20;
+            N_DIM = 3;
+        case 11
+            %**************************************
+            %           QUADRATIC TETRAHEDRON
+            %**************************************
+            temp = out(point:end);
+            ELEMENT(1:10,k) = NUMNODE(temp([1 5 2 6 3 7 8 10 9 4])).';
+            N_NODE_ELEMENT(k) = 10;
+            N_DIM = 3;
+        case 26
+            %**************************************
+            %           CUBIC LINE
+            %**************************************
+            temp = out(point:end);
+            ELEMENT(1:4,k) = NUMNODE(temp([1 3 4 2])).';
+            N_NODE_ELEMENT(k) = 4;
+        case 21
+            %**************************************
+            %           CUBIC TRIANGLE
+            %**************************************
+            temp = out(point:end);
+            ELEMENT(1:10,k) = NUMNODE(temp([1 4 5 2 6 7 3 8 9 10])).';
+            N_NODE_ELEMENT(k) = 10;
+        case 36
+            %**************************************
+            %           CUBIC QUADRANGLE
+            %**************************************
+            temp = out(point:end);
+            ELEMENT(1:16,k) = NUMNODE(temp([1 5 6 2 7 8 3 9 10 4 11 12 13 14 15 16])).';
+            N_NODE_ELEMENT(k) = 16;
+        case 27
+            %**************************************
+            %           QUARTIC LINE
+            %**************************************
+            temp = out(point:end);
+            ELEMENT(1:5,k) = NUMNODE(temp([1 3 4 5 2])).';
+            N_NODE_ELEMENT(k) = 5;
+        case 23
+            %**************************************
+            %           QUARTIC TRIANGLE
+            %**************************************
+            temp = out(point:end);
+            ELEMENT(1:15,k) = NUMNODE(temp([1 4 5 6 2 7 8 9 3 10 11 12 13 14 15])).';
+            N_NODE_ELEMENT(k) = 15;
+        case 37
+            %**************************************
+            %           QUARTIC QUADRANGLE
+            %**************************************
+            temp = out(point:end);
+            ELEMENT(1:25,k) = NUMNODE(temp([1 5 6 7 2 8 9 10 3 11 12 13 4 14 15 16 17 21 18 22 19 23 20 24 25])).';
+            N_NODE_ELEMENT(k) = 25;
+        otherwise
+            error('Element not recognized!')
     end
 end
 
