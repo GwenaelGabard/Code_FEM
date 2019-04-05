@@ -26,14 +26,14 @@ Lbar = find(diag(R)==0);
 % Change of variables to impose the linear constraints
 R = R + sparse(Lbar, Lbar, ones(1, length(Lbar)), N_DOF, N_DOF);
 R = inv(R);
-K = R.'*K*R;
-F = R.'*F;
+K = R'*K*R;
+F = R'*F;
 
 % Modify the linear system 
-% K(L,:) = 0;% K((L-1)*N_DOF+L) = 1;% F(L) = V(L); (original method - unsymmetric + slow)
-F = F-repmat(K(:,L)*V(L),1,N_RHS); K(L,:) = 0; K(:,L) = 0; 
-diagK = diag(K); diagK(L)=1; K = spdiags(diagK,0,K); 
-F(L,:) = repmat(V(L),1,N_RHS);
+K(L,:) = 0; K((L-1)*N_DOF+L) = 1; F(L) = V(L); %(original method - unsymmetric + slow)
+% F = F-repmat(K(:,L)*V(L),1,N_RHS); K(L,:) = 0; K(:,L) = 0; 
+% diagK = diag(K); diagK(L)=1; K = spdiags(diagK,0,K); 
+% F(L,:) = repmat(V(L),1,N_RHS);
 
 
 % Direct resolution of the linear system
