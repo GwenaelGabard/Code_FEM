@@ -66,10 +66,13 @@ if strcmpi(token(end-length(DIRECTORY_PRIVATE)+1:end),DIRECTORY_PRIVATE)
     LIBRARY_PATH{2} = token(1:end-5);
 end
 
+global METIS_PATH
+
 name = getenv('computername');
 switch name
     case {'BELEUBH01'} % Hadrien's laptop
         SYSNOISE_PATH = 'D:\ProgramFiles\SysnoiseVL13.6\5.6\bin';
+        METIS_PATH = 'D:\MATLAB\Code_FEM_Private\Core\Gmsh\metis-5.1.0\build\programs\Release';
         SCRATCH_PATH = [pwd '\'];
     case {'LNI6W005'} % largest node dev.
         SYSNOISE_PATH = 'C:\Users\ms7go3\Documents\sysnoise\bin';
