@@ -24,7 +24,7 @@ fclose(infile);
 fclose(outfile);
 
 % Run gmsh to produce the .msh file
-system(['gmsh ' Output ['.geo -' num2str(NrOfdimensions) ' -optimize_ho -v 0']]);
+system(['gmsh ' Output ['.geo -' num2str(NrOfdimensions) ' -optimize_ho -v 0 -format msh2' ]]);
 
 % Parse the .msh file to create the elements
 Gmsh2CodeFem([Output '.msh'], Output);
