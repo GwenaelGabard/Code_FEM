@@ -56,7 +56,7 @@ for n=1:N_GAUSS_POINT
     rho = Flow.rho_inf*( 1 + (Flow.gamma-1)/2*(Flow.v_inf^2-v2)/Flow.c_inf^2 )^(1/(Flow.gamma-1));
     c2 = Flow.c_inf^2*( 1 + (Flow.gamma-1)/2*(Flow.v_inf^2-v2)/Flow.c_inf^2 );
     if v2>c2
-        error('The flow is supersonic: the calculation cannot proceed (c=%f, v=%f).', sqrt(c2), sqrt(v2));
+        warning('The flow is supersonic: the calculation cannot proceed (c=%f, v=%f).', sqrt(c2), sqrt(v2));
     end
     Ke = Ke + GAUSS_WEIGHT(n)*( rho/c2*(dphi'*GRAD)'*(dphi'*GRAD) - rho*(GRAD'*GRAD) )*r*detJ;
     Fe = Fe + GAUSS_WEIGHT(n)*( rho*GRAD'*dphi )*r*detJ;
