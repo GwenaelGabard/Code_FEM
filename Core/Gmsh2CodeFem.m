@@ -169,6 +169,14 @@ for k=1:N_ELEMENT
             ELEMENT(1:10,k) = NUMNODE(temp([1 5 2 6 3 7 8 10 9 4])).';
             N_NODE_ELEMENT(k) = 10;
             N_DIM = 3;
+         case 18
+            %**************************************
+            %           QUADRATIC PRISM
+            %**************************************
+            temp = out(point:end);
+            ELEMENT(1:15,k) = NUMNODE(temp([1 7 2 10 3 8 9 11 12 4 13 5 15 6 14])).';
+            N_NODE_ELEMENT(k) = 15;
+            N_DIM = 3;
         case 26
             %**************************************
             %           CUBIC LINE
